@@ -1,48 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>My portfolio </title>
-        <style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My portfolio </title>
+    <link rel="stylesheet" href="style.css">
+    <!-- <style>
             .main{
                 text-align: center;
             }
-        </style>
-    </head>
+        </style> -->
+</head>
 
-    <body>
+<body>
 
-        <div id='loading'>
-            loading...
+    <div id='loading'>
+        loading...
+    </div>
+
+    <div class="main" id="Maincontainer" hidden>
+        <div class='mainpage'>
+            <div class="profile-section">
+                <img id="profileimage" height="100" width="100">
+                <h2 id="fullname"></h2>
+                <p id="bio"></p>
+                <h5 id="followersinformation"></h5>
+                <p>
+                    check me on <a id="githublink">Github</a>
+                </p>
+            </div>
+            <div class="projects-section">
+
+                <div id="Myrepos">
+                    <h3>My Projects</h3>
+                </div>
+
+            </div>
         </div>
 
-        <div class="main" id="Maincontainer" hidden>
-            <img id="profileimage" height="100" width="100">
-            <h2 id="fullname"></h2>
-            <p id="bio"></p>
-            <h5 id="followersinformation"></h5>
-            <p>
-                check me on <a id="githublink">Github</a>
-            </p>
-            <a class="twitter-timeline" data-width="300" data-height="400" href="https://twitter.com/shirishamhrjn?ref_src=twsrc%5Etfw">Tweets by shirishamhrjn</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        </div>
+        <div class="sidebar">
 
-        <script>
-            fetch("https://api.github.com/users/ShirishaMhr")
+            <a class="twitter-timeline" data-width="800" data-height="800"
+                href="https://twitter.com/shirishamhrjn?ref_src=twsrc%5Etfw">Tweets by shirishamhrjn</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        fetch("https://api.github.com/users/ShirishaMhr")
             .then(Response => Response.json())
-            .then(function(data){
+            .then(function (data) {
                 console.log(data)
 
                 let followersCount = data['followers']
-                let followersinfo = 'I have been followed by ${followersCount} my amazing two friends'
+                let followersinfo = 'I have been followed by ${followersCount} my amazing friends'
                 document.getElementById("profileimage").src = data['avatar_url']
-                document.getElementById("fullname").textContent= data['name']
-                document.getElementById("bio").textContent= data['bio']
-                document.getElementById("followersinformation").textContent= followersinfo
-                document.getElementById("githublink").href= data['html_url']
-                document.getElementById("Maincontainer").hidden= false
-                document.getElementById("loading").hidden= true
-            })
-        </script>
-    </body>
+                document.getElementById("fullname").textContent = data['name']
+                document.getElementById("bio").textContent = data['bio']
+                document.getElementById("followersinformation").textContent = followersinfo
+                document.getElementById("githublink").href = data['html_url']
+                document.getElementById("Maincontainer").hidden = false
+                document.getElementById("loading").hidden = true
+
+            });
+    </script>
+    <script>
+        fetch("https://api.github.com/users/ShirishaMhr/repos")
+            .then(Response => Response.json())
+            .then(function (data) {
+                completeCode = ""
+                data.forEach(eachDataItem => {
+                    // console.log(eachDataItem['name']);
+                    // console.log(eachDataItem['html_url']);
+                    code = "<li><a href='" + eachDataItem['html_url'] + "' target='_blank' nofollow>" +
+                        eachDataItem['name'] + "</a></li>"
+                    completeCode += code
+                });
+                console.log(completeCode)
+                var repoList = document.getElementById('Myrepos');
+                repoList.innerHTML = completeCode
+            });
+    </script>
+</body>
+
 </html>
