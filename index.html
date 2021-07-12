@@ -56,7 +56,7 @@
                 console.log(data)
 
                 let followersCount = data['followers']
-                let followersinfo = 'I have been followed by ${followersCount} my amazing friends'
+                let followersinfo = ` I have been followed by ${followersCount} my amazing friends`
                 document.getElementById("profileimage").src = data['avatar_url']
                 document.getElementById("fullname").textContent = data['name']
                 document.getElementById("bio").textContent = data['bio']
