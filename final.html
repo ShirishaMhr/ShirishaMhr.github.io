@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+
+    <body>
+        <div id="Activate devices list">
+            <video id="video" autoplay controls></video>
+        </div>
+
+
+        <script>
+            const constraints = {
+                video: true,
+                facingMode: "user",
+            };
+            const video = document.querySelector("video");
+
+            navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+                video.srcObject = stream;
+
+            });
+
+
+            var isIOS = (/iPad|iPhone|iPod/.test(window.navigator.userAgent) && !window.MSStream);
+            var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+            var isSafari = navigator.userAgent.toLowerCase().indexOf("safari") > -1 && navigator.userAgent.toLowerCase()
+                .indexOf("chrome") <= -1;
+            console.log(isAndroid, isChrome, isIOS, isSafari);
+
+            let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+
+            var active = [isAndroid, isChrome, isIOS, isSafari];
+            for (let i = 0; i < active.length; i++) {
+                if (active[i] == true) {
+                    let screenWidth = screen.availWidth;
+                    let screenheight = screen.availHeight;
+                    console.log("width & height: ", screenWidth, screenheight);
+
+                    var wh = [screenWidth, screenheight];
+
+
+                    if (screenWidth < 500) {
+                        console.log("Mobile device");
+                        video: {
+                            width: {
+                                min: 350
+                            }
+                            height: {
+                                min: 600
+                            }
+                        }
+
+                    } else if (screenWidth < 1100 && screenWidth > 500) {
+                        console.log("tablet");
+                        video.height = screenheight;
+                        video.width = screenWidth;
+
+                    } else {
+                        console.log("Desktop");
+                        video.height = screenheight;
+                        video.width = screenWidth;
+
+                    }
+
+
+                } else {
+                    console.log("your broswer!!")
+
+                }
+
+            };
+        </script>
+    </body>
+
+</html>
