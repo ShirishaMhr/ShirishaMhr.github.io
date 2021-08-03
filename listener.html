@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+
+    <body>
+        <div id="index">
+            <canvas id="myCanvas"></canvas>
+
+            <!-- Create Video Element -->
+            <video autoplay controls style="display: none;"></video>
+            <button id="myBtn">Stop</button>
+
+
+        </div>
+
+
+        <script>
+            // Ask permission to access video
+            const constraints = {
+                video: true,
+                height: 800,
+                width: 600,
+            };
+
+            const video = document.querySelector("video");
+            const canvas = document.getElementById("myCanvas");
+            const context = canvas.getContext("2d");
+            canvas.width = 800;
+            canvas.height = 600;
+
+            // context.beginPath();
+            // context.rotate(Math.PI);
+            // context.closePath();
+
+            // canvas.addEventListener('load', (event) => {
+            //     console.log('this page has been loaded fully!');
+            // });
+
+            // canvas.src = 'listener.html';
+            // document.body.appendChild(canvas);
+
+            function repeatOften() {
+                context.drawImage(video, 0, 0); //Pass video element in canvas
+                requestAnimationFrame(repeatOften);
+            }
+
+            video.addEventListener("loadstart", function () {
+
+                requestAnimationFrame(repeatOften);
+            });
+
+            navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+                video.srcObject = stream;
+
+            });
+
+
+
+
+
+            // document.getElementById("myBtn").addEventListener("click", function () {
+            //     alert("You need permission to stop the video");
+            // });
+        </script>
+
+    </body>
+
+</html>
